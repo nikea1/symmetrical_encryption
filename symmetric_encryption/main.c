@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 //helper function
 void printBin(int num, int nbits){
@@ -135,20 +136,101 @@ char *decode(char cipher[], int key){
 }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
     
-    printf("Imma linkin this a github\n");
+//    char str[] = "Hello, World!";
+//    
+//    printf("%s\n", str);
+//    encode(str, 8);
+//    printf("%s\n", str);
+//    decode(str, 8);
+//    printf("%s\n", str);
+//
+//    printf("%d\n", argc);
     
-    char str[] = "Hello, World!";
+    if(argc == 4){
+        int key = atoi(argv[3]);
+        if(key < 8 || key > 15){
+            printf("Error: Key is out of bounds\n");
+            exit(1);
+        }
+        
+        FILE *fpi, *fpo;
+        int flag = 0;
+        
+        fpi = fopen(argv[2], "r");
+        fpo = fopen("cipher.txt", "w+");
+        
+        if(fpi == NULL || fpo == NULL){
+            printf("Error: file does not exist\n");
+            fclose(fpi);
+            fclose(fpo);
+            exit(1);
+        }
+        
+       
+        int f_length = 2048;
+        fseek(fpi, 0, SEEK_SET);
+        
+        char buffer[f_length];
+        
+        //if encoder mode
+        if(strcmp(argv[1], "encode") == 0){
+            //loop through file untill the end and hash the message
+            while(feof(fpi) == 0){
+                fgets(buffer, f_length, fpi);
+                encode(buffer, 8);
+                fputs(buffer, fpo);
+            }
+            //flag for completion
+            flag = 1;
+            
+        }
+        //if decoder mode
+        else if(strcmp(argv[1], "decode") == 0){
+            //loop through ciphered text untill the end and decode the message
+            while(feof(fpi) == 0){
+                fgets(buffer, f_length, fpi);
+                decode(buffer, 8);
+                fputs(buffer, fpo);
+            }
+            //flag for completion
+            flag = 1;
+        }
+        else{//if something else other than decode or encode
+            printf("Error: Invalid command. Has to be 'decode' or 'encode' without quotes\n");
+            fclose(fpi);
+            fclose(fpo);
+            exit(1);
+        }
+        
+        //close files
+        fclose(fpi);
+        fclose(fpo);
+        
+        //destroy old file and rename cipher to old file name
+        if(flag == 1){
+            remove(argv[2]);
+            rename("cipher.txt", argv[2]);
+        }
+        
+    }
+    else{
+        //print out correct format of command
+        printf("Format: %s [mode] [text file] [key]\n", argv[0]);
+    }//argc == 4
     
-    printf("%s\n", str);
-    encode(str, 8);
-    printf("%s\n", str);
-    decode(str, 8);
-    printf("%s\n", str);
 
+//        FILE *fp;
+//        
+//        fp = fopen("test.txt", "w+");
+//        fprintf(fp, "This is testing for fprintf...\n");
+//        fputs("This is testing for fputs...\n", fp);
+//        fclose(fp);
     
+//    FILE *fp;
+//    
+//    fp = fopen("test.txt", "r+");
+//    fclose(fp);
     
     return 0;
 }
