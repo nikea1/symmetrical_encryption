@@ -1,6 +1,6 @@
 # Simple Encrytion Program
 
-A simple program that encrypts text files using symmetric keys. It's not meant to be used for actual projects that requires encryption as the keys are 4-bits long. This project was just ment to further understand the process of Encryption with symmetric keys. 
+A simple program that encrypts text files using symmetric keys. It's not meant to be used for actual projects that requires encryption as the keys are 4-bits long. This project was just ment to further understand the process of Encryption with symmetric keys. This algorithm came from the example given from a Wikipedia article about Symmetric Key Algorithms.
 
 ## Getting Started
 
