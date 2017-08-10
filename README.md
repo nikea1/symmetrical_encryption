@@ -9,5 +9,7 @@ Download the main file and access it though your terminal of choice.
 ### Prerequisites
 
 At minimum you need a terminal to run the program.
-MacOS comes with a Unix terminal
+
+MacOS comes with a Unix terminal.
+
 For Windows users download Cygwin a unix like terminal from cygwin.org or your terminal of choice. You can also download CodeBlocks IDE to run the program.
